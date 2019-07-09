@@ -9,9 +9,9 @@ class NewsViewset(viewsets.ReadOnlyModelViewSet):
     serializer_class = NewsSerializer
 
     def get_queryset(self):
-        tags = self.request.GET.get("tags")
+        tags = self.request.GET.get("tags").split(",")
 
         if tags:
-            return New.objects.filter(tags__name__in=tags)
+            return New.objects.filter(tags__name__in=obj_tags).distinct()
         else:
             return New.objects.all()
